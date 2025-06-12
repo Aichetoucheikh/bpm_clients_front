@@ -1,0 +1,73 @@
+/* ../client/client.component.css */
+
+.client-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 15px; /* Si .clients-list n'utilise pas 'gap' */
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .client-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .client-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #f0f0f0;
+  }
+  
+  .client-header h3 {
+    margin: 0;
+    color: #0056b3; /* Couleur thème primaire */
+    font-size: 1.4em;
+  }
+  
+  .client-id {
+    font-size: 0.9em;
+    color: #777;
+    background-color: #f8f9fa;
+    padding: 3px 6px;
+    border-radius: 4px;
+  }
+  
+  .client-details p {
+    margin: 8px 0;
+    font-size: 0.95em;
+    color: #555;
+  }
+  
+  .client-details p strong {
+    color: #333;
+    min-width: 80px; /* Pour aligner un peu les valeurs */
+    display: inline-block;
+  }
+  
+  .status-badge {
+    padding: 4px 8px;
+    border-radius: 12px; /* Forme de pilule */
+    font-size: 0.85em;
+    font-weight: bold;
+    color: white; /* Couleur de texte par défaut pour les badges */
+    text-transform: capitalize;
+  }
+  
+  /* Classes de statut spécifiques retournées par getStatusClass() */
+  .status-active {
+    background-color: #28a745; /* Vert */
+  }
+  
+  .status-inactive {
+    background-color: #dc3545; /* Rouge */
+  }
+  
+  .status-pending {
+    background-color: #ffc107; /* Jaune/Orange */
+    color: #333; /* Texte plus foncé pour le jaune */
+  }

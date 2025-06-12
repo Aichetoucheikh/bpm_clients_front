@@ -1,0 +1,159 @@
+/* Reset de base */
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f7fa;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+}
+
+.logo {
+    width: 120px;
+    display: block;
+    margin: 0 auto 20px;
+    /* Style de secours si l'image ne charge pas */
+    border: 1px solid #ddd;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.bank-names {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.arabic {
+    font-size: 1.2rem;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 5px;
+}
+
+.french {
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+h1 {
+    text-align: center;
+    color: #0056b3;
+    font-size: 1.4rem;
+    margin-bottom: 30px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #0056b3;
+}
+
+.form-group input.is-invalid {
+    border-color: #dc3545;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+.login-btn {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+.login-btn:hover {
+    background-color: #004494;
+}
+
+.login-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.forgot-password {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.forgot-password a {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive pour mobiles */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 25px 20px;
+    }
+    
+    .arabic {
+        font-size: 1.1rem;
+    }
+    
+    h1 {
+        font-size: 1.2rem;
+    }
+    
+    .form-group input {
+        padding: 10px 12px;
+    }
+    
+    .login-btn {
+        padding: 12px;
+    }
+}

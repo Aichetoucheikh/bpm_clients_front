@@ -1,0 +1,27 @@
+<h2>Liste des Clients</h2>
+
+<div *ngIf="clients.length > 0; else noClients" class="clients-list">
+  <div *ngFor="let client of clients" class="client-item-container">
+    <app-client [client]="client"></app-client>
+  </div>
+</div>
+
+<nav>
+  <ul class="pagination justify-content-center">
+    <li class="page-item" [class.disabled]="currentPage === 0">
+      <button class="page-link" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 0">Précédent</button>
+    </li>
+
+    <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="i === currentPage">
+      <button class="page-link" (click)="changePage(i)">{{ i + 1 }}</button>
+    </li>
+
+    <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+      <button class="page-link" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages - 1">Suivant</button>
+    </li>
+  </ul>
+</nav>
+
+<ng-template #noClients>
+  <p class="no-clients-message">Aucun client à afficher pour le moment.</p>
+</ng-template>

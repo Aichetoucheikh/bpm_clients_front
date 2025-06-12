@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+
+/* styles.css - Vos styles globaux ici */
+body {
+    margin: 0; /* Enlève les marges par défaut du navigateur */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #f0f2f5; /* Couleur de fond générale pour la page, un gris clair */
+    color: #333; /* Couleur de texte par défaut */
+    line-height: 1.6;
+  }
+  
+  /* Vous pouvez ajouter d'autres styles globaux ici si nécessaire */

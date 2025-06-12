@@ -1,0 +1,15 @@
+<div *ngIf="client" class="client-card">
+  <div class="client-header">
+    <h3>{{ client.name }}</h3>
+    <span class="client-id">ID: {{ client.id }}</span>
+  </div>
+  <div class="client-details">
+    <p><strong>CIF:</strong> {{ client.cif }}</p>
+    <p><strong>Téléphone:</strong> {{ client.phone }}</p>
+    <p><strong>Statut:</strong>
+      <span class="status-badge" [ngClass]="getStatusClass(client.ClientStatus)">
+        {{ client.ClientStatus }}
+      </span>
+    </p>
+  </div>
+</div>

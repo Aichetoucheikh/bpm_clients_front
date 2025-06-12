@@ -1,0 +1,90 @@
+/* Reset de base */
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f7fa;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+}
+
+.logo {
+    width: 120px;
+    display: block;
+    margin: 0 auto 20px;
+    /* Style de secours si l'image ne charge pas */
+    border: 1px solid #ddd;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.bank-names {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.arabic {
+    font-size: 1.2rem;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 5px;
+}
+
+.french {
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+h1 {
+    text-align: center;
+    color: #0056b3;
+    font-size: 1.4rem;
+    margin-bottom: 30px;
+}
+
+/* Conteneur de navigation */
+nav {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  /* Style de base pour les liens routerLink */
+  nav a {
+    text-decoration: none;
+    color: #0d6efd; /* Bleu principal */
+    font-weight: 500;
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    transition: background-color 0.3s, color 0.3s;
+    border: 1px solid transparent;
+  }
+  
+  /* Hover */
+  nav a:hover {
+    background-color: #e0f0ff;
+    color: #084298;
+    border-color: #b6d9ff;
+  }
+  
+  /* Lien actif */
+  nav a.active {
+    background-color: #0d6efd;
+    color: #fff;
+    border-color: #0d6efd;
+  }

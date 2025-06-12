@@ -1,0 +1,21 @@
+/* ./clients.component.css */
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .clients-list {
+    display: grid; /* Utilise Grid pour un layout flexible */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Crée des colonnes responsives */
+    gap: 20px; /* Espace entre les cartes de client */
+    padding: 10px;
+  }
+  
+  .no-clients-message {
+    text-align: center;
+    font-style: italic;
+    color: #777;
+    margin-top: 30px;
+  }
