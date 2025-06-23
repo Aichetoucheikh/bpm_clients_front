@@ -30,5 +30,26 @@ export class ClientsService {
   deleteClient(id: number): Observable<void> {
     return this.http.delete<void>(`${clientsEndpoint}/${id}`);
   }
+  blockClient(id: number, motif: string): Observable<Client> {
+    return this.http.post<Client>(`${clientsEndpoint}/${id}/block`, { motif });
+  }
+  
+  unblockClient(id: number): Observable<Client> {
+    return this.http.post<Client>(`${clientsEndpoint}/${id}/unblock`, {});
+  }
+  
+  getOtp(id: number): Observable<any> { // Le type de retour dépend de votre backend
+      return this.http.get<any>(`${clientsEndpoint}/${id}/otp`);
+  }
+  
+  searchClientsByPhone(phone: string, page: number, size: number) {
+    return this.http.get<any>('http://localhost:8080/clients/search', {
+      params: {
+        phone: phone,
+        page: page,
+        size: size
+      }
+    });
+  }
 
 }

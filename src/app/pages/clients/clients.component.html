@@ -1,27 +1,56 @@
 <h2>Liste des Clients</h2>
 
+<!-- Barre de recherche améliorée -->
+<div class="search-container mb-4" style="display: flex; gap: 8px; justify-content: center; align-items: center;">
+  <input
+    type="text"
+    class="search-input"
+    [(ngModel)]="searchPhone"
+    placeholder="Rechercher un client par téléphone"
+    (keyup.enter)="searchClients()"
+    style="padding: 6px 10px; font-size: 14px; border-radius: 4px; border: 1px solid #ccc; width: 250px;" />
+
+  <button
+    class="btn btn-primary"
+    (click)="searchClients()"
+    style="padding: 5px 12px; font-size: 13px; border-radius: 4px;">
+    🔍
+  </button>
+
+  <button
+    class="btn btn-outline-secondary"
+    (click)="resetSearch()"
+    style="padding: 5px 12px; font-size: 13px; border-radius: 4px;">
+    ✖
+  </button>
+</div>
 <div *ngIf="clients.length > 0; else noClients" class="clients-list">
-  <div *ngFor="let client of clients" class="client-item-container">
-    <app-client [client]="client"></app-client>
-  </div>
+  <!-- Chaque client est maintenant dans une balise <a> avec un routerLink -->
+  <a *ngFor="let client of clients" [routerLink]="['/clients', client.id]" class="client-item-link">
+    <div class="client-item-container">
+      <app-client [client]="client"></app-client>
+    </div>
+  </a>
 </div>
 
+<!-- Pagination -->
 <nav>
   <ul class="pagination justify-content-center">
     <li class="page-item" [class.disabled]="currentPage === 0">
-      <button class="page-link" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 0">Précédent</button>
+      <button class="page-link" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 0" style="font-size: 14px; padding: 6px 10px;">Précédent</button>
     </li>
 
     <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="i === currentPage">
-      <button class="page-link" (click)="changePage(i)">{{ i + 1 }}</button>
+      <button class="page-link" (click)="changePage(i)" style="font-size: 14px; padding: 6px 10px;">{{ i + 1 }}</button>
     </li>
 
     <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
-      <button class="page-link" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages - 1">Suivant</button>
+      <button class="page-link" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages - 1" style="font-size: 14px; padding: 6px 10px;">Suivant</button>
     </li>
   </ul>
 </nav>
 
+<!-- Message s'il n'y a pas de clients -->
 <ng-template #noClients>
   <p class="no-clients-message">Aucun client à afficher pour le moment.</p>
 </ng-template>

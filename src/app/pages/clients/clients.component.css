@@ -12,6 +12,11 @@ h2 {
     gap: 20px; /* Espace entre les cartes de client */
     padding: 10px;
   }
+  .client-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
   
   .no-clients-message {
     text-align: center;

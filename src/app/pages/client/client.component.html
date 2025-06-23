@@ -7,8 +7,8 @@
     <p><strong>CIF:</strong> {{ client.cif }}</p>
     <p><strong>Téléphone:</strong> {{ client.phone }}</p>
     <p><strong>Statut:</strong>
-      <span class="status-badge" [ngClass]="getStatusClass(client.ClientStatus)">
-        {{ client.ClientStatus }}
+      <span class="status-badge" [ngClass]="getStatusClass(client.status)">
+        {{ client.status }}
       </span>
     </p>
   </div>

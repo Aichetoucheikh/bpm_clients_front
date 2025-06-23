@@ -1,0 +1,31 @@
+<div class="container mt-4" *ngIf="employe">
+    <h2>Gestion de l'employé : {{ employe.nom }}</h2>
+    <hr>
+    <div class="card">
+      <div class="card-header">Détails et Actions</div>
+      <div class="card-body">
+        <p><strong>ID :</strong> {{ employe.id }}</p>
+        <p><strong>Nom :</strong> {{ employe.nom }}</p>
+        <p><strong>Identifiant :</strong> {{ employe.identifiantConnexion }}</p>
+        <p><strong>Rôle :</strong> {{ employe.role }}</p>
+        <p><strong>Statut :</strong>
+          <span class="badge" [ngClass]="employe.status === 'ACTIF' ? 'bg-success' : 'bg-danger'">
+            {{ employe.status }}
+          </span>
+        </p>
+        <hr>
+        <h5>Actions</h5>
+        <button *ngIf="employe.status === 'ACTIF'" class="btn btn-warning me-2" (click)="toggleStatut()">
+          Suspendre
+        </button>
+        <button *ngIf="employe.status === 'SUSPENDU'" class="btn btn-success me-2" (click)="toggleStatut()">
+          Réactiver
+        </button>
+         <button class="btn btn-danger" (click)="onDelete()">
+          Supprimer
+        </button>
+      </div>
+    </div>
+    <button class="btn btn-secondary mt-3" routerLink="/employes">Retour à la liste</button>
+  </div>
+  

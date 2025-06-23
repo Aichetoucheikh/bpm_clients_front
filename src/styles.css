@@ -9,3 +9,5 @@ body {
   }
   
   /* Vous pouvez ajouter d'autres styles globaux ici si nécessaire */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

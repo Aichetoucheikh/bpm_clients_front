@@ -1,8 +1,30 @@
-<nav>
-    <a style="padding: 10px;" routerLink="/home">Home</a>
-    <a  style="padding: 10px;" routerLink="/clients">Clients</a>
-    <a style="padding: 10px;" routerLink="/login" *ngIf="isLoggedIn()">Logout</a>
-    <a style="padding: 10px;" routerLink="/login" *ngIf="!isLoggedIn()">Login</a>
-</nav>
+<button type="button" class="btn btn-dark m-3" (click)="visibleSidebar = true">
+  <i class="pi pi-bars"></i> Menu
+</button>
 
-<router-outlet></router-outlet>
+<p-sidebar [(visible)]="visibleSidebar">
+  <h4 class="mb-4">Menu</h4>
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/home" (click)="visibleSidebar = false">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/clients" (click)="visibleSidebar = false">Clients</a>
+    </li>
+    <!-- NOUVEAU LIEN ADMIN -->
+    <li class="nav-item" *ngIf="(userRole$ | async) === 'ADMIN'">
+      <a class="nav-link" routerLink="/employes" (click)="visibleSidebar = false">Gestion Employés</a>
+    </li>
+    <hr>
+    <li class="nav-item" *ngIf="isLoggedIn$ | async">
+      <a class="nav-link" style="cursor: pointer;" (click)="logout()">Logout ({{ userName$ | async }})</a>
+    </li>
+    <li class="nav-item" *ngIf="!(isLoggedIn$ | async)">
+      <a class="nav-link" routerLink="/login" (click)="visibleSidebar = false">Login</a>
+    </li>
+  </ul>
+</p-sidebar>
+
+<div class="p-4">
+  <router-outlet></router-outlet>
+</div>

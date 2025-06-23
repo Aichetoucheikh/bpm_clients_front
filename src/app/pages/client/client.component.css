@@ -51,23 +51,19 @@
   
   .status-badge {
     padding: 4px 8px;
-    border-radius: 12px; /* Forme de pilule */
-    font-size: 0.85em;
+    border-radius: 4px;
     font-weight: bold;
-    color: white; /* Couleur de texte par défaut pour les badges */
-    text-transform: capitalize;
+    color: white;
   }
   
-  /* Classes de statut spécifiques retournées par getStatusClass() */
   .status-active {
-    background-color: #28a745; /* Vert */
+    background-color: #28a745; /* vert */
   }
   
-  .status-inactive {
-    background-color: #dc3545; /* Rouge */
+  .status-blocked {
+    background-color: #dc3545; /* rouge */
   }
   
-  .status-pending {
-    background-color: #ffc107; /* Jaune/Orange */
-    color: #333; /* Texte plus foncé pour le jaune */
+  .status-unknown {
+    background-color: #6c757d; /* gris */
   }

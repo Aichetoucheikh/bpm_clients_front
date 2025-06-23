@@ -14,16 +14,7 @@ describe('ClientComponent', () => {
     fixture = TestBed.createComponent(ClientComponent);
     component = fixture.componentInstance;
 
-    // ✅ Simule un client de test
-    component.client = {
-      id: 1,
-      name: 'Test Client',
-      cif: '123456',
-      phone: '0612345678',
-      ClientStatus: 'Active',
-      currentOtp: '7890'
-    };
-
+  
     fixture.detectChanges();
   });
 

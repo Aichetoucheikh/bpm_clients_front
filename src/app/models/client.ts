@@ -1,8 +1,9 @@
 export interface Client {
- id: number;
+  id: number;
   name: string;
   cif: string;
   phone: string;
-  ClientStatus: 'ACTIVE' | 'BLOCKED' | 'Pending' | string;
+  status: 'ACTIVE' | 'BLOCKED' | string;
   currentOtp: string;
+  motifBlocage?: string; // NOUVEAU CHAMP (optionnel)
 }
