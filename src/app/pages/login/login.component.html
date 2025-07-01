@@ -1,41 +1,54 @@
 <div class="login-container">
-  <form class="login-form" (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
-      <div class="form-group">
-          <label for="username">Nom d'utilisateur :</label>
-          <input 
-              type="text" 
-              id="username" 
-              name="username"
-              [(ngModel)]="credentials.username"
-              required
-              #usernameInput="ngModel"
-              placeholder="Votre nom d'utilisateur"
-              [ngClass]="{'is-invalid': usernameInput.invalid && (usernameInput.dirty || usernameInput.touched || loginForm.submitted)}">
-          <div *ngIf="usernameInput.invalid && (usernameInput.dirty || usernameInput.touched || loginForm.submitted)" class="invalid-feedback">
-              Le nom d'utilisateur est requis.
-          </div>
-      </div>
-      
-      <div class="form-group">
-          <label for="password">Mot de passe :</label>
-          <input 
-              type="password" 
-              id="password" 
-              name="password"
-              [(ngModel)]="credentials.password"
-              required
-              #passwordInput="ngModel"
-              placeholder="Entrez votre mot de passe"
-              [ngClass]="{'is-invalid': passwordInput.invalid && (passwordInput.dirty || passwordInput.touched || loginForm.submitted)}">
-          <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched || loginForm.submitted)" class="invalid-feedback">
-              Le mot de passe est requis.
-          </div>
-      </div>
+    <div class="bank-header">
+        <img src="images/logo-bpm.png" alt="Logo BPM" class="logo">
+        <div class="bank-names">
+            <p class="arabic">البنك الشعبى الموريتانى</p>
+            <p class="french">BANQUE POPULAIRE DE MAURITANIE</p>
+        </div>
+        <h1>Portail Digital v2.6.1</h1>
+    </div>
 
-      <button type="submit" class="login-btn" [disabled]="loginForm.invalid && loginForm.submitted">Se Connecter</button>
-      
-      <div class="forgot-password">
-          <a href="#">Mot de passe oublié ?</a>
-      </div>
-  </form>
+    <form class="login-form" (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+        <div class="form-group">
+            <label for="username">Nom d'utilisateur :</label>
+            <input 
+                type="text" 
+                id="username" 
+                name="identifiantConnexion"
+                [(ngModel)]="credentials.identifiantConnexion"
+                required
+                #usernameInput="ngModel"
+                placeholder="Votre nom d'utilisateur"
+                [ngClass]="{'is-invalid': usernameInput.invalid && (usernameInput.dirty || usernameInput.touched || loginForm.submitted)}">
+            <div *ngIf="usernameInput.invalid && (usernameInput.dirty || usernameInput.touched || loginForm.submitted)" class="invalid-feedback">
+                Le nom d'utilisateur est requis.
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Mot de passe :</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="motDePasse"
+                [(ngModel)]="credentials.motDePasse"
+                required
+                #passwordInput="ngModel"
+                placeholder="Entrez votre mot de passe"
+                [ngClass]="{'is-invalid': passwordInput.invalid && (passwordInput.dirty || passwordInput.touched || loginForm.submitted)}">
+            <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched || loginForm.submitted)" class="invalid-feedback">
+                Le mot de passe est requis.
+            </div>
+        </div>
+        
+        <div *ngIf="errorMessage" class="alert alert-danger my-3">
+            {{ errorMessage }}
+        </div>
+
+        <button type="submit" class="login-btn" [disabled]="loginForm.invalid">Se Connecter</button>
+        
+        <div class="forgot-password">
+            <a href="#">Mot de passe oublié ?</a>
+        </div>
+    </form>
 </div>

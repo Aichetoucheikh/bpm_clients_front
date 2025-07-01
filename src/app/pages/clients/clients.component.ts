@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ClientComponent } from "../client/client.component"; // Ajustez le chemin si nécessaire
+import { ClientComponent } from "../client/client.component"; 
 import { Client } from '../../models/client';
 import { ClientsService } from '../../services/clients.service';
 import { FormsModule } from '@angular/forms';  // Pour ngModel dans la recherche
@@ -13,19 +13,18 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [
     CommonModule,
-    ClientComponent,
     MatIconModule,
     FormsModule,
     RouterModule,
     MatButtonModule
-  ],
+],
   templateUrl: './clients.component.html',
-  styleUrls: ['./clients.component.css']  // Correction ici
+  styleUrls: ['./clients.component.css']  
 })
-export class ClientsComponent implements OnInit{
-resetSearch() {
-throw new Error('Method not implemented.');
-}
+export class ClientsComponent implements OnInit {
+  resetSearch() {
+    throw new Error('Method not implemented.');
+  }
 
   clients: Client[] = [];
 
@@ -34,13 +33,13 @@ throw new Error('Method not implemented.');
 
   searchPhone: string = '';
 
-  constructor (private clientsService: ClientsService) {}
+  constructor(private clientsService: ClientsService) { }
 
   ngOnInit(): void {
     this.getClients();
   }
 
-  getClients(page = 0, size = 10) {
+  getClients(page = 0, size = 12) {
     this.clientsService.getAllClients(page, size)
       .subscribe({
         next: (response) => {
@@ -52,6 +51,16 @@ throw new Error('Method not implemented.');
           console.error('Error loading clients:', err);
         }
       });
+  }
+  getDisplayedPages(): number[] {
+    const pages: number[] = [];
+    const startPage = Math.max(0, this.currentPage - 1);
+    const endPage = Math.min(this.totalPages - 1, this.currentPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 
   // Nouvelle méthode pour chercher par téléphone

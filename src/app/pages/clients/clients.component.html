@@ -1,51 +1,77 @@
-<h2>Liste des Clients</h2>
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="display-6 fw-bold text-dark mb-0">Liste des Clients</h2>
+      <div class="input-group" style="max-width: 350px;">
+          <input type="text" class="form-control" placeholder="Rechercher par téléphone..." 
+                 [(ngModel)]="searchPhone" (keyup.enter)="searchClients()">
+          <button class="btn btn-outline-secondary" type="button" (click)="resetSearch()">✖</button>
+      </div>
+  </div>
 
-<!-- Barre de recherche améliorée -->
-<div class="search-container mb-4" style="display: flex; gap: 8px; justify-content: center; align-items: center;">
-  <input
-    type="text"
-    class="search-input"
-    [(ngModel)]="searchPhone"
-    placeholder="Rechercher un client par téléphone"
-    (keyup.enter)="searchClients()"
-    style="padding: 6px 10px; font-size: 14px; border-radius: 4px; border: 1px solid #ccc; width: 250px;" />
+  <!-- NOUVEAU DESIGN EN CARTES -->
+  <div *ngIf="clients.length > 0; else noClients" class="row g-4">
+      <div *ngFor="let client of clients" class="col-sm-6 col-lg-4 col-xl-3">
+          <div class="card h-100 shadow-sm border-0 client-card-hover">
+              <div class="card-body text-center">
+                  <img [src]="client.photoUrl || 'https://i.pravatar.cc/100'" alt="Photo client" class="rounded-circle mb-3" width="80" height="80" style="object-fit: cover;">
+                  <h5 class="card-title fw-bold text-dark">{{ client.name }}</h5>
+                  <p class="card-text text-secondary small">CIF: {{ client.cif }}</p>
+                  <div class="d-flex justify-content-center align-items-center mb-3">
+                      <span class="badge rounded-pill" [ngClass]="client.status === 'ACTIVE' ? 'bg-success-subtle text-success-emphasis' : 'bg-danger-subtle text-danger-emphasis'">
+                          {{ client.status }}
+                      </span>
+                  </div>
+                  <a [routerLink]="['/clients', client.id]" class="btn btn-outline-success btn-sm">Gérer le client</a>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  <ng-template #noClients>
+      <p class="text-center text-secondary mt-5">Aucun client trouvé.</p>
+  </ng-template>
 
-  <button
-    class="btn btn-primary"
-    (click)="searchClients()"
-    style="padding: 5px 12px; font-size: 13px; border-radius: 4px;">
-    🔍
-  </button>
-
-  <button
-    class="btn btn-outline-secondary"
-    (click)="resetSearch()"
-    style="padding: 5px 12px; font-size: 13px; border-radius: 4px;">
-    ✖
-  </button>
-</div>
-<div *ngIf="clients.length > 0; else noClients" class="clients-list">
-  <!-- Chaque client est maintenant dans une balise <a> avec un routerLink -->
-  <a *ngFor="let client of clients" [routerLink]="['/clients', client.id]" class="client-item-link">
-    <div class="client-item-container">
-      <app-client [client]="client"></app-client>
-    </div>
-  </a>
-</div>
 
 <!-- Pagination -->
 <nav>
   <ul class="pagination justify-content-center">
+    <!-- Bouton Précédent -->
     <li class="page-item" [class.disabled]="currentPage === 0">
-      <button class="page-link" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 0" style="font-size: 14px; padding: 6px 10px;">Précédent</button>
+      <button class="page-link rounded-circle" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 0">
+        <i class="bi bi-chevron-left"></i>
+      </button>
     </li>
 
-    <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="i === currentPage">
-      <button class="page-link" (click)="changePage(i)" style="font-size: 14px; padding: 6px 10px;">{{ i + 1 }}</button>
+    <!-- Première page -->
+    <li class="page-item" *ngIf="currentPage > 2">
+      <button class="page-link" (click)="changePage(0)">1</button>
     </li>
 
+    <!-- Ellipses gauche -->
+    <li class="page-item disabled" *ngIf="currentPage > 2">
+      <span class="page-link">...</span>
+    </li>
+
+    <!-- Pages dynamiques autour de la page courante -->
+    <li class="page-item" *ngFor="let page of getDisplayedPages()" [class.active]="page === currentPage">
+      <button class="page-link" (click)="changePage(page)">{{ page + 1 }}</button>
+    </li>
+
+    <!-- Ellipses droite -->
+    <li class="page-item disabled" *ngIf="currentPage < totalPages - 3">
+      <span class="page-link">...</span>
+    </li>
+
+    <!-- Dernière page -->
+    <li class="page-item" *ngIf="currentPage < totalPages - 2">
+      <button class="page-link" (click)="changePage(totalPages - 1)">{{ totalPages }}</button>
+    </li>
+
+    <!-- Bouton Suivant -->
     <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
-      <button class="page-link" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages - 1" style="font-size: 14px; padding: 6px 10px;">Suivant</button>
+      <button class="page-link rounded-circle" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages - 1">
+        <i class="bi bi-chevron-right"></i>
+      </button>
     </li>
   </ul>
 </nav>

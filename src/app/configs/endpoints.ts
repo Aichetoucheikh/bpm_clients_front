@@ -4,3 +4,4 @@ export const clientsEndpoint = host + "clients";
 
 export const loginEndpoint = host + "auth/login";
 export const employesEndpoint = host + "api/employes"; 
+export const managementEndpoint = host + "api/management";

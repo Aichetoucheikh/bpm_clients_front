@@ -1,30 +1,53 @@
-<button type="button" class="btn btn-dark m-3" (click)="visibleSidebar = true">
-  <i class="pi pi-bars"></i> Menu
-</button>
-
-<p-sidebar [(visible)]="visibleSidebar">
-  <h4 class="mb-4">Menu</h4>
-  <ul class="nav flex-column">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/home" (click)="visibleSidebar = false">Home</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/clients" (click)="visibleSidebar = false">Clients</a>
-    </li>
-    <!-- NOUVEAU LIEN ADMIN -->
-    <li class="nav-item" *ngIf="(userRole$ | async) === 'ADMIN'">
-      <a class="nav-link" routerLink="/employes" (click)="visibleSidebar = false">Gestion Employés</a>
-    </li>
+<div class="d-flex vh-100 overflow-hidden" *ngIf="authService.isLoggedIn(); else loginPage">
+  <aside class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 260px; background-color: var(--sidebar-bg);">
+    <a routerLink="/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <img src="images/bpm.png" alt="Logo BPM" width="40" height="40" class="rounded-circle me-3">
+      <span class="fs-4">BPM Portail</span>
+    </a>
     <hr>
-    <li class="nav-item" *ngIf="isLoggedIn$ | async">
-      <a class="nav-link" style="cursor: pointer;" (click)="logout()">Logout ({{ userName$ | async }})</a>
-    </li>
-    <li class="nav-item" *ngIf="!(isLoggedIn$ | async)">
-      <a class="nav-link" routerLink="/login" (click)="visibleSidebar = false">Login</a>
-    </li>
-  </ul>
-</p-sidebar>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item mb-1">
+        <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link text-white py-2">
+          <i class="ph-house-line fs-5 me-2 align-middle"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item mb-1">
+        <a routerLink="/clients" routerLinkActive="active" class="nav-link text-white py-2">
+          <i class="ph-users fs-5 me-2 align-middle"></i> Clients
+        </a>
+      </li>
 
-<div class="p-4">
-  <router-outlet></router-outlet>
+      <!-- Menu Employés -->
+      <li *ngIf="authService.hasPermission('MANAGE_EMPLOYES')" class="nav-item mb-1">
+        <a routerLink="/employes" routerLinkActive="active" class="nav-link text-white py-2">
+          <i class="ph-identification-card fs-5 me-2 align-middle"></i> Employés
+        </a>
+      </li>
+
+      <!-- Menu Rôles & Permissions -->
+      <li *ngIf="authService.hasPermission('MANAGE_ROLES_PERMISSIONS')" class="nav-item mb-1">
+        <a routerLink="/management/roles" routerLinkActive="active" class="nav-link text-white py-2">
+          <i class="ph-shield-check fs-5 me-2 align-middle"></i> Rôles & Permissions
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <img [src]="(userPhotoUrl$ | async) || 'https://i.pravatar.cc/40'" alt="user photo" width="32" height="32" class="rounded-circle me-2">
+        <strong>{{ userName$ | async }}</strong>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+        <li><a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Déconnexion</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main class="flex-grow-1 overflow-auto p-4">
+    <router-outlet></router-outlet>
+  </main>
 </div>
+
+<ng-template #loginPage>
+  <router-outlet></router-outlet>
+</ng-template>

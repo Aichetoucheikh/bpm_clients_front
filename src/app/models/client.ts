@@ -5,5 +5,8 @@ export interface Client {
   phone: string;
   status: 'ACTIVE' | 'BLOCKED' | string;
   currentOtp: string;
-  motifBlocage?: string; // NOUVEAU CHAMP (optionnel)
+  motifBlocage?: string;
+  nni?: string;      // AJOUTER
+  sexe?: string;     // AJOUTER
+  photoUrl?: string; // AJOUTER // NOUVEAU CHAMP (optionnel)
 }

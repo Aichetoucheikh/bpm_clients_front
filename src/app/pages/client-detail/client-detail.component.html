@@ -1,83 +1,86 @@
 <div class="container my-5" *ngIf="client">
     <div class="card shadow rounded-4 border-0">
-        <div class="card-body">
-            <h2 class="card-title mb-4">
-                <i class="bi bi-person-circle me-2"></i> Détails du Client
-            </h2>
-            <hr>
-
-            <!-- Informations Générales -->
-            <div class="mb-4">
-                <h5 class="text-primary mb-3">
-                    <i class="bi bi-info-circle me-2"></i> Informations Générales
-                </h5>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <i class="bi bi-person-fill me-2 text-secondary"></i><strong>Nom :</strong> {{ client.name }}
-                    </li>
-                    <li class="list-group-item">
-                        <i class="bi bi-credit-card-2-front me-2 text-secondary"></i><strong>CIF :</strong> {{
-                        client.cif }}
-                    </li>
-                    <li class="list-group-item">
-                        <i class="bi bi-telephone-fill me-2 text-secondary"></i><strong>Téléphone :</strong> {{
-                        client.phone }}
-                    </li>
-                    <li class="list-group-item">
-                        <i class="bi bi-shield-check me-2 text-secondary"></i>
-                        <strong>Statut :</strong>
-                        <span class="badge px-3 py-2 fs-6"
-                            [ngClass]="client.status === 'ACTIVE' ? 'bg-success' : 'bg-danger'">
-                            {{ client.status }}
-                        </span>
-                    </li>
-                    <li class="list-group-item text-danger" *ngIf="client.status === 'BLOCKED'">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        <strong>Motif du blocage :</strong> {{ client.motifBlocage || 'Non spécifié' }}
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Actions -->
-            <div *ngIf="userRole" class="bg-light p-4 rounded">
-                <h5 class="mb-3 text-dark">
-                    <i class="bi bi-gear-fill me-2"></i> Actions
-                </h5>
-
-                <!-- Ligne des boutons OTP + Déblocage -->
-                <div class="d-flex gap-2 flex-wrap mb-3">
-                    <!-- Bouton OTP -->
-                    <button class="btn btn-outline-info" *ngIf="canBlockOrConsultOtp()" (click)="consultOtp()">
-                        <i class="bi bi-eye-fill me-1"></i> Consulter OTP
-                    </button>
-
-                    <!-- Déblocage -->
-                    <button class="btn btn-success" *ngIf="client.status === 'BLOCKED' && canUnblock()"
-                        (click)="unblock()">
-                        <i class="bi bi-unlock-fill me-1"></i> Débloquer le Client
-                    </button>
-                </div>
-
-
-                <!-- Blocage -->
-                <div *ngIf="client.status === 'ACTIVE' && canBlockOrConsultOtp()" class="mb-3">
-                    <label class="form-label"><strong>Bloquer le client :</strong></label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Motif du blocage"
-                            [(ngModel)]="motifBlocage">
-                        <button class="btn btn-warning" (click)="block()" [disabled]="!motifBlocage">
-                            <i class="bi bi-lock-fill me-1"></i> Bloquer
-                        </button>
-                    </div>
-                </div>
-
-
-                <!-- Retour -->
-                <div class="mt-4">
-                    <button class="btn btn-secondary" routerLink="/clients">
-                        <i class="bi bi-arrow-left me-1"></i> Retour à la liste
-                    </button>
-                </div>
-            </div>
+      <div class="card-body">
+        <h2 class="card-title mb-4">
+          <i class="bi bi-person-circle me-2"></i> Détails du Client
+        </h2>
+        <hr>
+  
+        <!-- Informations Générales -->
+        <div class="mb-4">
+          <h5 class="text-primary mb-3">
+            <i class="bi bi-info-circle me-2"></i> Informations Générales
+          </h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <i class="bi bi-person-fill me-2 text-secondary"></i><strong>Nom :</strong> {{ client.name }}
+            </li>
+            <li class="list-group-item">
+              <i class="bi bi-credit-card-2-front me-2 text-secondary"></i><strong>CIF :</strong> {{ client.cif }}
+            </li>
+            <li class="list-group-item">
+              <i class="bi bi-telephone-fill me-2 text-secondary"></i><strong>Téléphone :</strong> {{ client.phone }}
+            </li>
+            <li class="list-group-item">
+              <i class="bi bi-shield-check me-2 text-secondary"></i>
+              <strong>Statut :</strong>
+              <span class="badge px-3 py-2 fs-6" [ngClass]="client.status === 'ACTIVE' ? 'bg-success' : 'bg-danger'">
+                {{ client.status }}
+              </span>
+            </li>
+            <li class="list-group-item text-danger" *ngIf="client.status === 'BLOCKED'">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              <strong>Motif du blocage :</strong> {{ client.motifBlocage || 'Non spécifié' }}
+            </li>
+          </ul>
         </div>
+  
+        <!-- Actions -->
+        <div class="bg-light p-4 rounded">
+          <h5 class="mb-3 text-dark">
+            <i class="bi bi-gear-fill me-2"></i> Actions
+          </h5>
+  
+          <!-- Ligne des boutons OTP + Déblocage -->
+          <div class="d-flex gap-2 flex-wrap mb-3">
+            <!-- Bouton OTP - Permission VIEW_CLIENTS -->
+            <button class="btn btn-outline-info" 
+                    *ngIf="hasPermission('VIEW_CLIENTS') && client.status === 'ACTIVE'" 
+                    (click)="consultOtp()">
+              <i class="bi bi-eye-fill me-1"></i> Consulter OTP
+            </button>
+  
+            <!-- Déblocage - Permission UNBLOCK_CLIENT -->
+            <button class="btn btn-success" 
+                    *ngIf="client.status === 'BLOCKED' && hasPermission('UNBLOCK_CLIENT')" 
+                    (click)="unblock()">
+              <i class="bi bi-unlock-fill me-1"></i> Débloquer le Client
+            </button>
+          </div>
+  
+          <!-- Blocage - Permission BLOCK_CLIENT -->
+          <div *ngIf="client.status === 'ACTIVE' && hasPermission('BLOCK_CLIENT')" class="mb-3">
+            <label class="form-label"><strong>Bloquer le client :</strong></label>
+            <div class="input-group">
+              <input type="text" 
+                     class="form-control" 
+                     placeholder="Motif du blocage" 
+                     [(ngModel)]="motifBlocage">
+              <button class="btn btn-warning" 
+                      (click)="block()" 
+                      [disabled]="!motifBlocage">
+                <i class="bi bi-lock-fill me-1"></i> Bloquer
+              </button>
+            </div>
+          </div>
+  
+          <!-- Retour -->
+          <div class="mt-4">
+            <button class="btn btn-secondary" routerLink="/clients">
+              <i class="bi bi-arrow-left me-1"></i> Retour à la liste
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>

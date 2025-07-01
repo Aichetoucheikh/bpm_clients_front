@@ -1,6 +1,6 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'; // À ajouter si vous faites des appels HTTP
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'; 
 
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -18,8 +18,6 @@ export const appConfig: ApplicationConfig = {
     }),
 
     provideRouter(routes),
-    // Si vous prévoyez de faire des appels HTTP (par exemple pour l'authentification),
-    // importez HttpClientModule comme ceci pour les applications standalone :
     importProvidersFrom(HttpClientModule),
 
     {

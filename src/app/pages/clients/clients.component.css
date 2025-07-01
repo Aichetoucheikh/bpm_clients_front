@@ -24,3 +24,11 @@ h2 {
     color: #777;
     margin-top: 30px;
   }
+  .client-card-hover {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.client-card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+}
+

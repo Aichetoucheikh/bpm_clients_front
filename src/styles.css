@@ -11,3 +11,43 @@ body {
   /* Vous pouvez ajouter d'autres styles globaux ici si nécessaire */
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f7f6; /* Fond gris clair */
+  margin: 0;
+}
+
+:root {
+  --bpm-green: #008037;
+  --bpm-green-dark: #00642b;
+  --sidebar-bg: #1f2937; /* Un gris-bleu foncé */
+  --sidebar-hover: #374151;
+}
+
+/* Styles pour les liens actifs dans la sidebar (utilisés par routerLinkActive) */
+.nav-link.active {
+  background-color: var(--bpm-green) !important;
+  color: white !important;
+  border-radius: 0.5rem;
+}
+/* Ajoutez ces styles globaux au début de votre fichier styles.css */
+body, html {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f7f6; /* Un gris très clair, plus doux que le blanc pur */
+  height: 100%;
+  margin: 0;
+}
+
+:root {
+  --bpm-green: #008037;
+  --bpm-green-dark: #00642b;
+  --sidebar-bg: #1f2937;
+  --sidebar-text: #d1d5db;
+  --sidebar-hover: #374151;
+}
+
+/* Style pour le lien de navigation actif */
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  background-color: var(--bpm-green);
+  color: white !important;
+}

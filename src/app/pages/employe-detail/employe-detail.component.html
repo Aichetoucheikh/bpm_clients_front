@@ -1,31 +1,90 @@
-<div class="container mt-4" *ngIf="employe">
-    <h2>Gestion de l'employé : {{ employe.nom }}</h2>
-    <hr>
-    <div class="card">
-      <div class="card-header">Détails et Actions</div>
-      <div class="card-body">
-        <p><strong>ID :</strong> {{ employe.id }}</p>
-        <p><strong>Nom :</strong> {{ employe.nom }}</p>
-        <p><strong>Identifiant :</strong> {{ employe.identifiantConnexion }}</p>
-        <p><strong>Rôle :</strong> {{ employe.role }}</p>
-        <p><strong>Statut :</strong>
-          <span class="badge" [ngClass]="employe.status === 'ACTIF' ? 'bg-success' : 'bg-danger'">
-            {{ employe.status }}
-          </span>
-        </p>
-        <hr>
-        <h5>Actions</h5>
-        <button *ngIf="employe.status === 'ACTIF'" class="btn btn-warning me-2" (click)="toggleStatut()">
-          Suspendre
+<div class="container-fluid" *ngIf="employe">
+    <!-- En-tête avec bouton retour et infos employé -->
+    <div class="d-flex align-items-center mb-4">
+        <button class="btn btn-outline-secondary me-3" routerLink="/employes" title="Retour à la liste">
+            <i class="ph-arrow-left"></i>
         </button>
-        <button *ngIf="employe.status === 'SUSPENDU'" class="btn btn-success me-2" (click)="toggleStatut()">
-          Réactiver
-        </button>
-         <button class="btn btn-danger" (click)="onDelete()">
-          Supprimer
-        </button>
-      </div>
+        <img [src]="employe.photoUrl || 'https://i.pravatar.cc/80'" alt="Photo" class="rounded-circle me-4" width="80"
+            height="80" style="object-fit: cover;">
+        <div>
+            <h2 class="display-6 fw-bold text-dark mb-0">{{ employe.nom }}</h2>
+
+            <!-- Affichage des rôles en badges -->
+            <p class="text-secondary fs-5">
+                <span *ngFor="let role of employe.roles" class="badge bg-info me-1">{{ role.name }}</span>
+            </p>
+        </div>
     </div>
-    <button class="btn btn-secondary mt-3" routerLink="/employes">Retour à la liste</button>
-  </div>
-  
+
+    <div class="row g-4">
+        <!-- Carte Informations -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-semibold"><i class="ph-info align-middle me-2"></i>Informations</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>ID :</strong> {{ employe.id }}</p>
+                    <p><strong>Identifiant de Connexion :</strong> {{ employe.identifiantConnexion }}</p>
+                    <p><strong>Statut du Compte :</strong>
+                        <span class="badge rounded-pill"
+                            [ngClass]="employe.status === 'ACTIF' ? 'bg-success-subtle text-success-emphasis' : 'bg-danger-subtle text-danger-emphasis'">
+                            {{ employe.status }}
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carte Actions -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-semibold"><i class="ph-gear-six align-middle me-2"></i>Actions de Gestion</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Section modifier le statut -->
+                    <p class="fw-medium">Modifier le statut de l'employé :</p>
+                    <div class="d-grid mb-4">
+                        <button *ngIf="employe.status === 'ACTIF'" class="btn btn-warning" (click)="toggleStatut()">
+                            <i class="ph-hand-pausing align-middle me-2"></i> Suspendre le Compte
+                        </button>
+                        <button *ngIf="employe.status === 'SUSPENDU'" class="btn btn-success" (click)="toggleStatut()">
+                            <i class="ph-play-circle align-middle me-2"></i> Réactiver le Compte
+                        </button>
+                    </div>
+
+                    <hr>
+                    <!-- Modifier les rôles -->
+                    <ng-container *ngIf="canManageRoles">
+                        <hr>
+
+                        <p class="fw-medium mt-3">Modifier les rôles :</p>
+                        <div class="d-flex flex-wrap gap-3 border p-3 rounded mb-3">
+                            <div class="form-check" *ngFor="let role of availableRoles">
+                                <input class="form-check-input" type="checkbox" [id]="'role-' + role.id"
+                                    [checked]="isRoleSelected(role.id)" (change)="onRoleChange(role.id, $event)">
+                                <label class="form-check-label" [for]="'role-' + role.id">
+                                    {{ role.name }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="d-grid mb-4">
+                            <button class="btn btn-primary" (click)="onUpdateRoles()">Appliquer les rôles</button>
+                        </div>
+                    </ng-container>
+
+                    <hr class="my-4">
+
+
+                    <!-- Section suppression -->
+                    <div class="d-grid">
+                        <button class="btn btn-danger" (click)="onDelete()">
+                            <i class="ph-trash align-middle me-2"></i> Supprimer définitivement
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

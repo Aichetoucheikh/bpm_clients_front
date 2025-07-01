@@ -1,73 +1,74 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { loginEndpoint } from '../configs/endpoints';
 
 @Injectable({
   providedIn: 'root'
 })
-// Le nom de la classe est maintenant AuthService, ce qui est standard.
 export class AuthService {
+  private userNameSubject = new BehaviorSubject<string | null>(null);
+  private userPhotoUrlSubject = new BehaviorSubject<string | null>(null);
 
-  private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
-  private userRole = new BehaviorSubject<string | null>(localStorage.getItem('userRole'));
-  private userName = new BehaviorSubject<string | null>(localStorage.getItem('userName'));
+  constructor(private http: HttpClient, private router: Router) {
+    this.loadUserFromStorage();
+  }
 
-  constructor(private http: HttpClient, private router: Router) { }
+  login(credentials: any): Observable<any> {
+    return this.http.post<any>(loginEndpoint, credentials).pipe(
+      tap(response => {
+        localStorage.setItem('jwtToken', response.token);
+        localStorage.setItem('userName', response.nom);
+        localStorage.setItem('userRoles', JSON.stringify(response.roles)); // Stockage en tableau JSON
+        localStorage.setItem('userPermissions', JSON.stringify(response.permissions)); // Nouveau : stocker les permissions
+        localStorage.setItem('userPhotoUrl', response.photoUrl);
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(loginEndpoint, { identifiantConnexion: username, motDePasse: password })
-      .pipe(
-        tap(response => {
-          if (response && response.token) {
-            localStorage.setItem('jwtToken', response.token);
-            localStorage.setItem('userRole', response.role);
-            localStorage.setItem('userName', response.nom);
-            
-            this.loggedIn.next(true);
-            this.userRole.next(response.role);
-            this.userName.next(response.nom);
-          }
-        })
-      );
+        this.userNameSubject.next(response.nom);
+        this.userPhotoUrlSubject.next(response.photoUrl);
+      })
+    );
   }
 
   logout(): void {
-    localStorage.removeItem('jwtToken');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userName');
-    
-    this.loggedIn.next(false);
-    this.userRole.next(null);
-    this.userName.next(null);
-
+    localStorage.clear();
+    this.userNameSubject.next(null);
+    this.userPhotoUrlSubject.next(null);
     this.router.navigate(['/login']);
   }
 
-  private hasToken(): boolean {
+  public getRoles(): string[] {
+    const rolesString = localStorage.getItem('userRoles');
+    return rolesString ? JSON.parse(rolesString) : [];
+  }
+
+  public hasRole(roleName: string): boolean {
+    return this.getRoles().includes(roleName);
+  }
+
+  public getPermissions(): string[] {
+    const permissionsString = localStorage.getItem('userPermissions');
+    return permissionsString ? JSON.parse(permissionsString) : [];
+  }
+
+  public hasPermission(permission: string): boolean {
+    return this.getPermissions().includes(permission);
+  }
+
+  public isLoggedIn(): boolean {
     return !!localStorage.getItem('jwtToken');
   }
 
-  // --- Observables pour les composants ---
-  public isLoggedIn(): Observable<boolean> {
-    return this.loggedIn.asObservable();
+  private loadUserFromStorage(): void {
+    this.userNameSubject.next(localStorage.getItem('userName'));
+    this.userPhotoUrlSubject.next(localStorage.getItem('userPhotoUrl'));
   }
 
-  public getUserRole(): Observable<string | null> {
-    return this.userRole.asObservable();
+  getUserName(): Observable<string | null> {
+    return this.userNameSubject.asObservable();
   }
 
-  public getUserName(): Observable<string | null> {
-    return this.userName.asObservable();
-  }
-  
-  // --- Méthodes synchrones pour les Guards ---
-  public isLoggedInSync(): boolean {
-    return !!localStorage.getItem('jwtToken');
-  }
-  
-  public getRoleSync(): string | null {
-    return localStorage.getItem('userRole');
+  getUserPhotoUrl(): Observable<string | null> {
+    return this.userPhotoUrlSubject.asObservable();
   }
 }

@@ -1,32 +1,48 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
-import { HomeComponent } from './pages/home/home.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ClientsComponent } from './pages/clients/clients.component';
-import { AuthGuard } from './configs/auth-guard'; // Assurez-vous que ce fichier existe
-import { AdminGuard } from './configs/guards/admin.guard'; // CORRECTION : chemin d'import
-import { EmployeListComponent } from './pages/employe-list/employe-list.component'; // Assurez-vous d'importer ce composant
 import { ClientDetailComponent } from './pages/client-detail/client-detail.component';
-import { EmployeDetailComponent } from './pages/employe-detail/employe-detail.component'; // NOUVEAU
+import { EmployeListComponent } from './pages/employe-list/employe-list.component';
+import { EmployeDetailComponent } from './pages/employe-detail/employe-detail.component';
+import { EmployeFormComponent } from './pages/employe-form/employe-form.component';
+import { RoleManagementComponent } from './pages/role-management/role-management.component';
+
+import { AuthGuard } from './configs/auth-guard';
+import { PermissionGuard } from './configs/guards/permission.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'clients', component: ClientsComponent, canActivate: [AuthGuard] },
-  { path: 'clients/:id', component: ClientDetailComponent, canActivate: [AuthGuard] }, // NOUVELLE ROUTE
- 
-  
-  // NOUVELLE ROUTE PROTÉGÉE POUR LES EMPLOYÉS
-  { 
-    path: 'employes', 
-    component: EmployeListComponent, 
-    canActivate: [AuthGuard, AdminGuard] 
+  { path: 'clients/:id', component: ClientDetailComponent, canActivate: [AuthGuard] },
+
+  // Routes protégées par permissions
+  {
+    path: 'employes',
+    component: EmployeListComponent,
+    canActivate: [AuthGuard, PermissionGuard],
+    data: { permission: 'MANAGE_EMPLOYES' }
   },
-  { 
-    path: 'employes/:id', 
-    component: EmployeDetailComponent, 
-    canActivate: [AuthGuard, AdminGuard] 
+  {
+    path: 'employes/new',
+    component: EmployeFormComponent,
+    canActivate: [AuthGuard, PermissionGuard],
+    data: { permission: 'MANAGE_EMPLOYES' }
   },
+  {
+    path: 'employes/:id',
+    component: EmployeDetailComponent,
+    canActivate: [AuthGuard, PermissionGuard],
+    data: { permission: 'MANAGE_EMPLOYES' }
+  },
+  {
+    path: 'management/roles',
+    component: RoleManagementComponent,
+    canActivate: [AuthGuard, PermissionGuard],
+    data: { permission: 'MANAGE_ROLES_PERMISSIONS' }
+  },
+
   { path: '**', redirectTo: 'home' }
-  
 ];

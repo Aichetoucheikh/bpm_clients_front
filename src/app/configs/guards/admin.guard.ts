@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service'; // CORRECTION : Le chemin est maintenant correct
+import { AuthService } from '../../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class AdminGuard implements CanActivate {
   ) {}
 
   canActivate(): boolean {
-    if (this.authService.isLoggedInSync() && this.authService.getRoleSync() === 'ADMIN') {
+    if (this.authService.hasPermission('MANAGE_ROLES_PERMISSIONS')) {
       return true;
     }
     
